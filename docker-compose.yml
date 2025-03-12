@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  postgrescont:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
+    networks:
+      - node_app_network
+
+  user_app:
+    image: docker-user_app
+    build:
+      context: ./BE 
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_URL=postgresql://postgres:mysecretpassword@postgrescont:5432/mydb
+    ports:
+      - 3001:3001
+    depends_on:
+      - postgrescont
+    networks:
+      - node_app_network
+
+  frontend:
+    image: docker-frontend
+    build:
+      context: ./docker-fe  # Assuming your frontend is in the root folder
+      dockerfile: Dockerfile  # Ensure this Dockerfile is for the frontend
+    ports:
+      - 3002:3002  # Exposing port 3000 for the React app
+    networks:
+      - node_app_network
+    depends_on:
+      - user_app  # Ensure backend is ready before frontend starts
+
+networks:
+  node_app_network:
+    driver: bridge
