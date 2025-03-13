@@ -3,6 +3,7 @@ version: '3.8'
 services:
   postgrescont:
     image: postgres
+    container_name: postgrescont
     ports:
       - 5432:5432
     environment:
@@ -11,7 +12,8 @@ services:
       - node_app_network
 
   user_app:
-    image: docker-user_app
+    
+    container_name: user_app
     build:
       context: ./BE 
       dockerfile: Dockerfile
@@ -25,7 +27,8 @@ services:
       - node_app_network
 
   frontend:
-    image: docker-frontend
+    
+    container_name: frontend
     build:
       context: ./docker-fe  # Assuming your frontend is in the root folder
       dockerfile: Dockerfile  # Ensure this Dockerfile is for the frontend

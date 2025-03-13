@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
+const apiUrl = import.meta.env.VITE_BACKEND_URL;
+console.log(apiUrl)
 
 function App() {
   const [count, setCount] = useState(0);
@@ -14,7 +16,7 @@ function App() {
     // Replace with your actual backend API endpoint
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/'); // Make sure to replace with your backend URL and port
+        const response = await fetch(`${apiUrl}`); // Make sure to replace with your backend URL and port
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
